@@ -65,6 +65,11 @@ func newRowAsMap(rd *read) (r *titleRow, err error) {
 				return r, nil
 			case _C:
 				// end of row.cell
+				if tempCell.columnIndex == -1 || tempCell.V == "" {
+					// end of row
+					r.typeFieldMap = make(map[reflect.Type]map[int][]*fieldConfig)
+					return r, nil
+				}
 				for i := len(r.titles); i < tempCell.columnIndex; i++ {
 					// fill the skipped empty cell with blank
 					const blankText = ""
